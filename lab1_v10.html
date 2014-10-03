@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<title>Свойство transform & Генератор transform:rotate;</title>
+<style type="text/css">
+<!--
+.centeron {
+color:black;
+font-size:20px;
+}
+#rotate {
+width:710px;
+height:473px;
+background-image:url(http://kraftakro.net/zlata.jpg);
+background-repeat:no-repeat;
+border:10px double green;
+transform:rotate(10deg);
+-ms-transform:rotate(10deg);
+-moz-transform:rotate(10deg);
+-webkit-transform:rotate(10deg);
+-o-transform:rotate(10deg);
+}
+-->
+</style>
+<script type="text/javascript">
+function rotate(value)
+{
+document.getElementById('rotate').style.webkitTransform="rotate(" + value + "deg)";
+document.getElementById('rotate').style.msTransform="rotate(" + value + "deg)";
+document.getElementById('rotate').style.MozTransform="rotate(" + value + "deg)";
+document.getElementById('rotate').style.OTransform="rotate(" + value + "deg)";
+document.getElementById('rotate').style.transform="rotate(" + value + "deg)";
+document.getElementById('span1').innerHTML=value + "deg";
+}
+</script>
+</head>
+<body>
+<center>
+<h3>Генератор transform:rotate;</h3>
+<div class="centeron">
+<p>Введите значение в поле и нажмите Enter &crarr;</p>
+<br><br><br>
+<div id="rotate"></div>
+<br>
+Введите Ваше значение ( положительное или отрицательное )<br>
+<input type="range" min="-360" max="360" value="10" onchange="rotate(this.value)" /><br>
+transform:rotate(<span id="span1">10deg</span>);
+</div>
+</center>
+</body>
+</html>
