@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lab1</title>
+        <meta charset="utf-8" />
+        <style>
+            canvas
+            {
+                border: 1px solid black;
+                padding: 0px;
+            }
+            #panel { position: relative; }
+            #panel { width: 300px; right: -50px; }
+        </style>
+    </head>
+
+    <body onload="init()" onmousedown="down(event)" onmousemove="move(event)" onmouseup="up(event)">
+        <canvas height='500' width='700' id="Paint"></canvas>
+
+        <div id="panel">
+            <p>depth<input id="skill" type="range" min="1" max="200" value='3'></p>
+            <p>Color <input id="color" name="color" type="color"></p>
+            <p><button id="clear">Clear</button></p>
+        </div>
+
+
+
+        <script>
+            var Paint,   
+               ctx,             
+               press = false,  
+               p;             
+
+            function init() 
+            {
+                Paint = document.getElementById("Paint");
+                p =  new Array();
+                ctx   = Paint.getContext('2d');// двумерный контекст
+                ctx.lineWidth = document.getElementById('skill').value;
+                ctx.strokeStyle = document.getElementById("color").value;
+                ctx.fillStyle = ctx.strokeStyle;
+                ctx.stroke();
+                ctx.fill();
+            }
+
+            function drawLine(P1, P2)
+            {
+                ctx.moveTo(P1[0], P1[1]);
+                ctx.lineJoin='round';
+                ctx.lineCap='round';
+                ctx.lineTo(P2[0], P2[1]);
+                ctx.strokeStyle = document.getElementById("color").value;
+                ctx.lineWidth = document.getElementById('skill').value;
+                ctx.stroke();
+            }
+
+            function drawPoint(P)
+            {
+                ctx.arc(P[0], P[1], ctx.lineWidth/100, 0, 2 * Math.PI, false);
+                ctx.strokeStyle = document.getElementById("color").value;
+                ctx.fillStyle = ctx.strokeStyle;
+                ctx.lineWidth = document.getElementById('skill').value;
+                ctx.stroke();
+                ctx.fill();
+            }
+
+            function down(e) 
+            {
+                press = true;
+                move(e);
+            }
+
+            function up(e) 
+            {
+                press = false;
+                p = new Array();
+            }
+
+            function move(e) 
+            {
+               if(press == true)
+               {
+                    var posX = e.pageX-7, posY = e.pageY-7;
+                    if(p[0] == undefined) 
+                    {
+                        p[0] = [posX, posY];
+                        ctx.beginPath();
+                        drawPoint(p[0]);
+                        ctx.closePath();
+                    }
+                    if(posX < Paint.width && posY < Paint.height)
+                     {
+                        p[p.length] = [posX, posY];
+                        ctx.beginPath();
+                        drawLine(p[p.length-2], p[p.length-1]);
+                        ctx.closePath();
+                     }
+                }
+            }
+
+            function clear() 
+            {
+                 ctx.clearRect(0, 0, Paint.width, Paint.height);
+            }
+
+            document.getElementById('clear').onclick = function()
+            {
+                clear();
+            }
+
+        </script>
+    </body>
+</html>
